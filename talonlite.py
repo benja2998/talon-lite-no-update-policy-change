@@ -10,61 +10,44 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import QObject, QEvent, QTimer, QMetaObject, Qt, Q_ARG
 from utilities.util_admin_check import ensure_admin
 import preinstall_components.pre_checks as pre_checks
-import debloat_components.debloat_download_scripts as debloat_download_scripts
 import debloat_components.debloat_execute_raven_scripts as debloat_execute_raven_scripts
 import debloat_components.debloat_execute_external_scripts as debloat_execute_external_scripts
-import debloat_components.debloat_browser_installation as debloat_browser_installation
 import debloat_components.debloat_registry_tweaks as debloat_registry_tweaks
 import debloat_components.debloat_configure_updates as debloat_configure_updates
-import debloat_components.debloat_apply_background as debloat_apply_background
 from ui_components.ui_base_full import UIBaseFull
 from ui_components.ui_header_text import UIHeaderText
 from ui_components.ui_title_text import UITitleText
 
 
 
+_INSTALL_UI_BASE = None
 DEBLOAT_STEPS = [
     (
-        "download-scripts",
-        "Downloading some necessary scripts... (1/8)",
-        debloat_download_scripts.main,
-    ),
-    (
         "execute-raven-scripts",
-        "Executing debloating scripts... (2/8)",
+        "Executing debloating scripts...",
         debloat_execute_raven_scripts.main,
     ),
     (
-        "browser-installation",
-        "Installing your chosen browser... (3/8)",
-        debloat_browser_installation.main,
-    ),
-    (
         "execute-external-scripts",
-        "Debloating Windows... (4/8)",
+        "Debloating Windows...",
         debloat_execute_external_scripts.main,
     ),
     (
         "registry-tweaks",
-        "Making some visual tweaks... (6/8)",
+        "Making some visual tweaks...",
         debloat_registry_tweaks.main,
     ),
     (
         "configure-updates",
-        "Configuring Windows Update policies... (7/8)",
+        "Configuring Windows Update policies...",
         debloat_configure_updates.main,
-    ),
-    (
-        "apply-background",
-        "Setting your desktop background... (8/8)",
-        debloat_apply_background.main,
     ),
 ]
 
 
 
 def parse_args(argv=None):
-    parser = argparse.ArgumentParser(description="Talon installer")
+    parser = argparse.ArgumentParser(description="Talon Lite installer")
     parser.add_argument(
         "--developer-mode",
         action="store_true",
@@ -123,9 +106,9 @@ def _build_install_ui():
     for overlay in base.overlays:
         overlay.setWindowOpacity(0.8)
     overlay = base.primary_overlay
-    title_label = UITitleText("Installing Talon...", parent=overlay)
+    title_label = UITitleText("Talon Lite is installing", parent=overlay)
     UIHeaderText(
-        "Please don't use your keyboard or mouse. You can watch as Talon works.",
+        "Please don't use your keyboard or mouse. You can watch as Talon Lite works.",
         parent=overlay,
     )
     status_label = UIHeaderText("", parent=overlay, follow_parent_resize=False)
@@ -155,7 +138,7 @@ def _build_install_ui():
     StatusResizer(overlay, status_label, bottom_margin=title_label._top_margin)
     base.show()
     status_label.raise_()
-    return app, status_label
+    return app, status_label, base
 
 
 
@@ -172,16 +155,18 @@ def _update_status(label: UIHeaderText, message: str):
 
 
 
+
+
 def main(argv=None):
     args = parse_args(argv)
     ensure_admin()
     pre_checks.main()
-    run_screen('screen_browser_select')
     run_screen('screen_donation_request')
     app = None
     status_label = None
     if not args.developer_mode:
-        app, status_label = _build_install_ui()
+        global _INSTALL_UI_BASE
+        app, status_label, _INSTALL_UI_BASE = _build_install_ui()
 
     def debloat_sequence():
         for slug, message, func in DEBLOAT_STEPS:
@@ -203,6 +188,8 @@ def main(argv=None):
             threading.Thread(target=debloat_sequence, daemon=True).start()
         QTimer.singleShot(0, start_thread)
         sys.exit(app.exec_())
+
+
 
 if __name__ == "__main__":
     main()

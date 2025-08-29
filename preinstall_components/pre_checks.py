@@ -1,35 +1,9 @@
 import os
+import sys
 import tempfile
-import urllib.request
-import urllib.error
 import subprocess
-from utilities.util_defender_check import ensure_defender_disabled
-from utilities.util_windows_check import check_windows_11_home_or_pro
-from utilities.util_download_handler import download_file
 from utilities.util_error_popup import show_error_popup
 from utilities.util_logger import logger
-from utilities.util_ssl import create_ssl_context
-
-
-
-TEST_SCRIPT_URL = "https://code.ravendevteam.org/talon/dry_run_test.ps1"
-
-
-
-def _check_domain_reachable(url: str) -> bool:
-    ctx = create_ssl_context()
-    try:
-        req = urllib.request.Request(url, method="HEAD")
-        with urllib.request.urlopen(req, timeout=10, context=ctx):
-            return True
-    except Exception as e:
-        logger.error(f"Connectivity check failed for {url}: {e}")
-        show_error_popup(
-            "Talon could not reach code.ravendevteam.org.\n"
-            "Please check your internet connection or contact your ISP.",
-            allow_continue=True,
-        )
-        return False
 
 
 
@@ -46,7 +20,7 @@ def _check_temp_writable() -> bool:
     except Exception as e:
         logger.error(f"Temp dir check failed: {e}")
         show_error_popup(
-            f"Talon could not write files to {talon_dir}.\n"
+            f"Talon Lite could not write files to {talon_dir}.\n"
             "Please free up disk space or check permissions.",
             allow_continue=True,
         )
@@ -88,21 +62,8 @@ def _run_test_script(script_path: str) -> bool:
 
 
 
-def _download_and_run_test_script() -> bool:
-    if not download_file(TEST_SCRIPT_URL, dest_name="dry_run_test.ps1"):
-        return False
-    temp_root = os.environ.get("TEMP", tempfile.gettempdir())
-    script_path = os.path.join(temp_root, "talon", "dry_run_test.ps1")
-    return _run_test_script(script_path)
-
-
-
 def main() -> None:
-    ensure_defender_disabled()
-    check_windows_11_home_or_pro()
-    _check_domain_reachable("https://code.ravendevteam.org")
     _check_temp_writable()
-    _download_and_run_test_script()
 
 
 

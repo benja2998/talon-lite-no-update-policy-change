@@ -1,16 +1,2 @@
 @echo off
-nuitka ^
-  --onefile ^
-  --standalone ^
-  --enable-plugin=pyqt5 ^
-  --remove-output ^
-  --windows-console-mode=disable ^
-  --windows-uac-admin ^
-  --output-dir=dist ^
-  --follow-imports ^
-  --windows-icon-from-ico=media/ICON.ico ^
-  --include-data-dir=configs=configs ^
-  --include-data-dir=media=media ^
-  --include-package=screens ^
-  talon.py
-pause
+python -m nuitka --onefile --standalone --enable-plugins=pyqt5 --remove-output --windows-console-mode=disable --windows-uac-admin --output-dir=dist --output-filename=TalonLite.exe --follow-imports --windows-icon-from-ico=media\ICON.ico --include-data-dir=configs=configs --include-data-dir=media=media --include-data-dir=debloat_raven_scripts=debloat_raven_scripts --include-package=screens --product-name="Talon Lite" --company-name="Raven Development Team" --file-description="Lighter variant of Talon compatible with in-use systems." --file-version=1.0.0.0 --product-version=1.0.0.0 --copyright="Copyright (c) 2025 Raven Development Team" --onefile-tempdir-spec="{CACHE_DIR}\RavenDevelopmentTeam\TalonLite\{VERSION}" talonlite.py

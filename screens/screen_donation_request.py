@@ -51,7 +51,7 @@ def main():
         parent=overlay
     )
     UIHeaderText(
-        "After using Talon, if you like it, consider donating. Thanks.",
+        "After using Talon Lite, if you like it, consider donating. Thanks.",
         parent=overlay
     )
     img_label = UIImage("donation_request.png", parent=overlay)

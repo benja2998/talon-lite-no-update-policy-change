@@ -5,18 +5,18 @@
 > [!NOTE]
 > All of our free software is designed to respect your privacy, while being as simple to use as possible. Our free software is licensed under the [BSD-3-Clause license](https://ravendevteam.org/files/BSD-3-Clause.txt). By using our software, you acknowledge and agree to the terms of the license.
 
-Simple utility to debloat Windows in 2 clicks.
+Lighter variant of Talon compatible with in-use systems.
 
 > [!CAUTION]
-> Talon is designed to be used on **freshly installed Windows 11 systems**. Trying to use Talon on an already in-use system, or any older versions of Windows, is not guaranteed to work and can cause some apps to stop working properly and system corruption!
+> Talon Lite **is** compatible with Windows 10/11 Home/Professional/Enterprise/Education/LTSC unlike [Talon](https://github.com/ravendevteam/talon), however it does not debloat as much compared to the regular version as a result.
 
 ## Installation
-You can download the latest version of Talon from [here](https://debloat.win). Ensure that you temporarily whitelist your C: drive on Windows during the installation process to prevent Windows Defender from intervening.
+You can download the latest version of Talon Lite from [here](https://debloat.win).
 
 To compile from source, make sure you have Python 3.12.4, install the necessary libraries from `requirements.txt`, then run `build.bat`. **Please note that, when building from source, you are building the absolute latest version of the code (even newer than the most recent release)**!
 
 # Documentation
-Documentation is available [here](https://docs.ravendevteam.org/talon).
+Documentation is in progress and will be made available soon.
 
 ## Authors & Contributors
 
@@ -41,3 +41,6 @@ Documentation is available [here](https://docs.ravendevteam.org/talon).
 - [Xirdrak](https://github.com/Xirdrak)
 - [Alandlt15](https://github.com/Alandlt15)
 - [lotusflowr](https://github.com/lotusflowr)
+- [ArcticSnowyFox](https://github.com/ArcticSnowyFox)
+- [TNTim1](https://github.com/TNTim1)
+- [Thrallfaec](https://github.com/Thrallfaec)

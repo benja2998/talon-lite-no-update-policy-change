@@ -1,9 +1,11 @@
 import os
 import sys
 import re
+import tempfile
 from utilities.util_logger import logger
 from utilities.util_powershell_handler import run_powershell_command
 from utilities.util_error_popup import show_error_popup
+from utilities.util_download_handler import download_file
 
 
 
@@ -26,18 +28,25 @@ def main():
         sys.exit(1)
     logger.info(f"Using WinUtil config: {config_path}")
     
-    winutil_dir = os.environ.get('TEMP', '/tmp')
-    winutil_path = os.path.join(winutil_dir, 'talon', 'winutil.ps1')
+    # Ensure ChrisTitusTech WinUtil script is downloaded locally before execution
+    temp_dir = os.environ.get('TEMP', tempfile.gettempdir())
+    download_dir = os.path.join(temp_dir, 'talon')
+    url = "https://christitus.com/win"
+    name = "winutil.ps1"
+    logger.info(f"Downloading {url} -> {name}")
+    if not download_file(url, dest_name=name):
+        sys.exit(1)
+    winutil_path = os.path.join(download_dir, name)
     if not os.path.exists(winutil_path):
-        logger.error(f"WinUtil script not found: {winutil_path}")
         try:
             show_error_popup(
-                f"WinUtil script not found:\n{winutil_path}",
-                allow_continue=False,
+                f"Downloaded file not found:\n{winutil_path}",
+                allow_continue=False
             )
         except Exception:
             pass
         sys.exit(1)
+    logger.info(f"Successfully downloaded {name}")
     
     # Patch the script with regex
     logger.info("Patching ChrisTitusTech WinUtil script to remove Invoke-WPFFeatureInstall pop-up")
@@ -84,18 +93,12 @@ def main():
     args2 = [
         '-Silent',
         '-RemoveApps',
-        '-RemoveGamingApps',
         '-DisableTelemetry',
         '-DisableBing',
         '-DisableSuggestions',
         '-DisableLockscreenTips',
-        '-RevertContextMenu',
-        '-TaskbarAlignLeft',
-        '-HideSearchTb',
         '-DisableWidgets',
         '-DisableCopilot',
-        '-ClearStartAllUsers',
-        '-DisableDVR',
         '-DisableStartRecommended',
         '-ExplorerToThisPC',
         '-DisableMouseAcceleration',

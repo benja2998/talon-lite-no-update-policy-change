@@ -20,8 +20,18 @@ def run_powershell_script(
     allow_continue_on_fail: bool = False,
 ) -> int:
     if not os.path.isabs(script):
-        temp_dir = os.environ.get('TEMP', tempfile.gettempdir())
-        script_path = os.path.join(temp_dir, 'talon', script)
+        # Prefer embedded scripts bundled with the app, fallback to temp download location
+        if getattr(sys, 'frozen', False):
+            base_path = os.path.dirname(sys.executable)
+        else:
+            utilities_dir = os.path.dirname(os.path.abspath(__file__))
+            base_path = os.path.dirname(utilities_dir)
+        embedded_path = os.path.join(base_path, 'debloat_raven_scripts', script)
+        if os.path.exists(embedded_path):
+            script_path = embedded_path
+        else:
+            temp_dir = os.environ.get('TEMP', tempfile.gettempdir())
+            script_path = os.path.join(temp_dir, 'talon', script)
     else:
         script_path = script
     if not os.path.exists(script_path):

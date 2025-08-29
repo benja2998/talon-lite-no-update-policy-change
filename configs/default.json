@@ -3,7 +3,6 @@
                       "WPFTweaksDisplay",
                       "WPFTweaksDeBloat",
                       "WPFTweaksDisableLMS1",
-                      "WPFTweaksRemoveHome",
                       "WPFTweaksAH",
                       "WPFTweaksServices",
                       "WPFTweaksConsumerFeatures",
@@ -11,13 +10,6 @@
                       "WPFTweaksWifi",
                       "WPFTweaksTele",
                       "WPFTweaksDisableBGapps",
-                      "WPFTweaksRemoveGallery",
-                      "WPFTweaksRemoveOnedrive",
-                      "WPFTweaksRightClickMenu",
-                      "WPFTweaksRecallOff",
-                      "WPFTweaksLoc",
-                      "WPFTweaksDisableWpbtExecution",
-                      "WPFTweaksDVR",
-                      "WPFTweaksDisableExplorerAutoDiscovery"
+                      "WPFTweaksRecallOff"
                   ]
 }
