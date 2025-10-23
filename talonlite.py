@@ -13,7 +13,6 @@ import preinstall_components.pre_checks as pre_checks
 import debloat_components.debloat_execute_raven_scripts as debloat_execute_raven_scripts
 import debloat_components.debloat_execute_external_scripts as debloat_execute_external_scripts
 import debloat_components.debloat_registry_tweaks as debloat_registry_tweaks
-import debloat_components.debloat_configure_updates as debloat_configure_updates
 from ui_components.ui_base_full import UIBaseFull
 from ui_components.ui_header_text import UIHeaderText
 from ui_components.ui_title_text import UITitleText
@@ -36,11 +35,6 @@ DEBLOAT_STEPS = [
         "registry-tweaks",
         "Making some visual tweaks...",
         debloat_registry_tweaks.main,
-    ),
-    (
-        "configure-updates",
-        "Configuring Windows Update policies...",
-        debloat_configure_updates.main,
     ),
 ]
 
